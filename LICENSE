@@ -1,0 +1,17 @@
+
+**`LICENSE`**
+MIT License
+Copyright (c) 2024 <your-name>
+Permission is hereby granted...
+(standard MIT text)
+
+---
+
+### 4. Install & run (one terminal in VS Code)
+```powershell
+python -m venv .venv
+.venv\Scripts\activate
+pip install -e .
+fantasy-data           # should print “Dataset tokenized...”
+python -m fantasyllm.train   # or accelerate launch -m fantasyllm.train
+fantasy-demo           # opens Gradio

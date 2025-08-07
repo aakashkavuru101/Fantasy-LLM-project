@@ -1,0 +1,144 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fantasyllm"
+version = "1.0.0"
+description = "Production-ready LoRA fine-tuned Llama-2 for fantasy stories"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+authors = [
+    {name = "Fantasy LLM Team", email = "team@fantasyllm.dev"}
+]
+keywords = ["llm", "fantasy", "stories", "transformers", "lora", "fine-tuning"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "torch==2.3.0",
+    "transformers==4.41.2",
+    "peft==0.11.1",
+    "datasets==2.20.0",
+    "accelerate==0.31.0",
+    "wandb==0.17.0",
+    "gradio==4.36.1",
+    "bitsandbytes==0.43.1",
+    "scikit-learn==1.5.0",
+    "fire==0.5.0",
+    "fastapi==0.104.1",
+    "uvicorn[standard]==0.24.0",
+    "python-multipart==0.0.6",
+    "pydantic==2.5.0",
+    "python-dotenv==1.0.0",
+    "structlog==23.2.0",
+    "prometheus-client==0.19.0",
+    "httpx==0.25.2"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==7.4.3",
+    "pytest-cov==4.1.0",
+    "pytest-asyncio==0.21.1",
+    "pytest-mock==3.12.0",
+    "black==23.11.0",
+    "flake8==6.1.0",
+    "mypy==1.7.1",
+    "isort==5.12.0",
+    "bandit[toml]==1.7.5",
+    "pre-commit==3.6.0",
+    "coverage==7.3.2"
+]
+production = [
+    "gunicorn==21.2.0",
+    "redis==5.0.1",
+    "psutil==5.9.6"
+]</parameter>
+</invoke>
+
+[project.scripts]
+fantasy-data = "fantasyllm.data:main"
+fantasy-train = "fantasyllm.train:main"
+fantasy-chat = "fantasyllm.generate:main"
+fantasy-demo = "fantasyllm.demo:main"
+fantasy-api = "fantasyllm.api:main"
+fantasy-health = "fantasyllm.health:main"
+
+[project.urls]
+Homepage = "https://github.com/aakashkavuru101/Fantasy-LLM-project"
+Documentation = "https://github.com/aakashkavuru101/Fantasy-LLM-project/blob/main/README.md"
+Repository = "https://github.com/aakashkavuru101/Fantasy-LLM-project"
+Issues = "https://github.com/aakashkavuru101/Fantasy-LLM-project/issues"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["fantasyllm"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/tests/*",
+    "*/venv/*",
+    "*/__pycache__/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\bProtocol\):",
+    "@(abc\.)?abstractmethod",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", "venv"]
+skips = ["B101", "B601"]
